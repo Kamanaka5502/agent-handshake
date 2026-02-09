@@ -1,18 +1,19 @@
+from dataclasses import dataclass
+
+@dataclass
 class SystemState:
-    def __init__(self, mode, actor_role, prior_actions):
-        self.mode = mode
-        self.actor_role = actor_role
-        self.prior_actions = prior_actions
+    actor_role: str
+    mode: str
+    prior_actions: list
 
-
+@dataclass
 class ActionRequest:
-    def __init__(self, action, required_role, allowed_modes):
-        self.action = action
-        self.required_role = required_role
-        self.allowed_modes = allowed_modes
+    action: str
+    required_role: str
+    allowed_modes: list
 
 
-def preflight_check(state, request):
+def preflight_check(state: SystemState, request: ActionRequest) -> bool:
     if state.actor_role != request.required_role:
         return False
 

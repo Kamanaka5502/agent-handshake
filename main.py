@@ -1,10 +1,10 @@
-from llm import think
-from rules import SystemState, ActionRequest, preflight_check
+from rules import SystemState, ActionRequest
+from handshake import handshake
 
 state = SystemState(
-    actor_role="user",
+    actor_role="admin",
     mode="maintenance",
-    prior_actions=["login","auth_success"]
+    prior_actions=["login", "auth_success"]
 )
 
 request = ActionRequest(
@@ -13,13 +13,5 @@ request = ActionRequest(
     allowed_modes=["maintenance"]
 )
 
-allowed = preflight_check(state, request)
-
-print("Preflight allowed:", allowed)
-
-if allowed:
-    reasoning = think(request)
-    print("\nLLM reasoning:\n")
-    print(reasoning)
-else:
-    print("🚫 Agent blocked before thinking")
+result = handshake(state, request)
+print(result)
